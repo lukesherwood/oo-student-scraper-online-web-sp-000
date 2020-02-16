@@ -25,14 +25,10 @@ class Scraper
     profile_info = {}
     doc.css(".social-icon-container a").each do |links|
       link = links.attribute("href").text
-      if link.include?("twitter")
-        profile_info[:twitter] = link
-      elsif link.include?("linkedin")
-       profile_info[:linkedin] = link
-      elsif link.include?("github")
-        profile_info[:github] = link
-      else profile_info[:blog] = link
-      end
+      profile_info[:twitter] = link if link.include?("twitter")
+      profile_info[:linkedin] = link if link.include?("linkedin")
+      profile_info[:github] = link if link.include?("github")
+      profile_info[:blog] = link if links.css("img").attribute("src").text.include?("rss")
     end
     
     profile_info[:profile_quote] = doc.css(".profile-quote").text
